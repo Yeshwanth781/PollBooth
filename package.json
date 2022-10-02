@@ -1,0 +1,20 @@
+{
+  "name": "pollbooth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev":"nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yeshwanth",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.4.0",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "prisma": "^4.4.0"
+  }
+}
