@@ -4,15 +4,21 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev":"nodemon app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Yeshwanth",
+  "author": "YeshwanthG",
   "license": "ISC",
   "dependencies": {
+    "@chakra-ui/react": "^2.3.4",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@prisma/client": "^4.4.0",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
-    "nodemon": "^2.0.20"
+    "framer-motion": "^6.5.1",
+    "nodemon": "^2.0.20",
+    "react-router-dom": "^5.3.4"
   },
   "devDependencies": {
     "prisma": "^4.4.0"

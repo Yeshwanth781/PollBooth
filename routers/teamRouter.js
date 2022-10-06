@@ -9,6 +9,7 @@ router.get('/:id',async (req,res)=>{
             teamid:id,
         }
     })
+    console.log(teamdetails)
     res.json(teamdetails);
 })
 
@@ -17,6 +18,7 @@ router.post('/add',async (req,res)=>{
         data:{
             teamname:req.body.teamname,
             creator:parseInt(req.body.userid)
+
         }
     })
     await prisma.members.create({
@@ -26,7 +28,7 @@ router.post('/add',async (req,res)=>{
         }
     })
     res.status(200).json({
-        messege:"created user successfully"
+        messege:"created Team successfully"
     });
 })
 
