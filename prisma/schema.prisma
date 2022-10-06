@@ -22,7 +22,7 @@ model teams{
   teamname String
   creator Int
   members members[]
-  polls polls?
+  polls polls[]
 }
 model  members{
   users users @relation(fields: [userid],references: [id])
@@ -35,7 +35,7 @@ model polls{
   pollid Int @id @default(autoincrement())
   pollname String
   team teams @relation(fields: [teamid],references: [teamid])
-  teamid Int @unique
+  teamid Int
   Options options[]
 }
 model options{

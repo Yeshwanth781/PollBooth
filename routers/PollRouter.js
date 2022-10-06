@@ -25,28 +25,47 @@ router.post('/add/:teamid',async (req,res)=>{
             pollname:req.body.pollname,
         }
     })
+    res.json({
+        messege:"poll created successfully"
+    });
 }catch(err){
     res.json({
         messege:"could create poll",
     })
 }
-    res.status(200).json({
+})
+
+router.post('/addoption/:pollid',async (req,res)=>{
+    const id=parseInt(req.params.pollid)
+    try{
+    await prisma.options.create({
+        data:{
+            pollid:id,
+            optionname:req.body.optionname,
+        }
+    })
+}catch(err){
+    res.json({
+        messege:"could create poll",
+    })
+}
+    res.json({
         messege:"poll created successfully"
     });
 })
 
-router.get('getpollDetails/:pollid',async (req,res)=>{
+router.get('/getpollDetails/:pollid',async (req,res)=>{
     const id=parseInt(req.params.pollid)
-    const polls=await prisma.polls.findMany({
+    const polls=await prisma.options.findMany({
         where:{
             pollid:id,
         },
     })
     res.json(polls);
 })
-router.put('vote/:optionid',async (req,res)=>{
+router.put('/vote/:optionid',async (req,res)=>{
     const optionid=parseInt(req.params.optionid);
-    const votes=await prisma.options.findMany({
+    let votes=await prisma.options.findMany({
         where:{
             optionid:optionid
         },
@@ -54,11 +73,12 @@ router.put('vote/:optionid',async (req,res)=>{
             votes:true,
         }
     })
-    votes=parseInt(votes);
+    votes=parseInt(votes[0].votes);
     ++votes;
+    console.log(votes);
     await prisma.options.update({
         where: {
-          id: parseInt(optionid),
+          optionid: parseInt(optionid),
         },
         data:{
             votes:votes
