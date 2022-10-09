@@ -4,12 +4,17 @@ const prisma=new PrismaClient();
 
 router.get('/:id',async (req,res)=>{
     const id=parseInt(req.params.id)
-    const teamdetails=await prisma.teams.findMany({
+    let teamdetails=await prisma.members.findMany({
         where:{
-            teamid:id,
+            userid:id,
+        },
+        select:{
+            teams:true,
         }
     })
-    console.log(teamdetails)
+    teamdetails=teamdetails.map((item)=>{
+        return item.teams;
+    })
     res.json(teamdetails);
 })
 

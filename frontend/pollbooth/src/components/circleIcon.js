@@ -4,7 +4,7 @@ import { useState } from 'react';
 function CircleIcon(props){
   const [iv,set_iv]=useState(false);
     return (
-    <button style={{
+    <button onClick={props.func} style={{
     backgroundColor: props.color,
   border: 0,
   borderRadius: '50%',

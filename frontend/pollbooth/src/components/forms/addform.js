@@ -6,10 +6,10 @@ import {
     Button,
     HStack,
 } from '@chakra-ui/react'
-import { Add_Option,Add_Poll } from '../../fetchData';
+import { Add_Option,Add_Poll,Add_Team } from '../../fetchData';
 import { useState } from 'react';
 
-export default function AddForm({ onClose, id ,desc,fetch}) {
+export default function AddForm({ onClose, id ,desc}) {
     const toast = useToast();
     const [isLoading, setLoading] = useState(false);
     const [optionname, setoptionname] = useState('');
@@ -35,10 +35,8 @@ export default function AddForm({ onClose, id ,desc,fetch}) {
                     onClick={async () => {
                         if(desc==='option')
                         await Add_Option({ id, optionname: optionname })
-                        else await Add_Poll({id,pollname:optionname})
-                        console.log('from addform...');
-                        await fetch(false);
-                        setLoading(false);
+                        else if(desc==='poll')await Add_Poll({id,pollname:optionname})
+                        else await Add_Team({id,teamname:optionname})
                         toast(
                             {
                                 status: 'success',
@@ -49,7 +47,7 @@ export default function AddForm({ onClose, id ,desc,fetch}) {
                 >
                     Save
                 </Button>
-                <Button onClick={onClose}>Cancel</Button>
+                <Button bg={'red.300'} onClick={onClose}>Cancel</Button>
             </HStack>
         </div>
     )

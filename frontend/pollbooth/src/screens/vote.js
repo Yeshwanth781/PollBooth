@@ -1,4 +1,4 @@
-import { PhoneIcon, AddIcon, WarningIcon, CloseIcon, MinusIcon, CheckIcon } from '@chakra-ui/icons'
+import { PhoneIcon, AddIcon, WarningIcon, CloseIcon, MinusIcon, CheckIcon ,RepeatClockIcon} from '@chakra-ui/icons'
 import { Pollcard } from '../components/card/optioncard';
 import AddForm from '../components/forms/addform';
 import CircleIcon from '../components/circleIcon';
@@ -24,24 +24,32 @@ import { useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react'
 function Vote() {
     const [options, set_options] = useState([]);
+    const [loading,setloading]=useState(false);
     const location = useLocation();
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const id=location.state.id;
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [sorted,setsorted]=useState(false);   
+    let id,iscreator ;
+    if(location.state!==null){
+    id= location.state.id;
+    iscreator=location.state.iscreator;
+    }
     const pollname = location.state.title;
     const [changed,setchanged]=useState(false);
+    const mclose=()=>{
+        console.log("updating votes......");
+        setchanged(!changed);
+        onClose();
+      }
     const [selectedid, set_selected] = useState(0);
     const option = options.map((item) => {
         return (
-            <Pollcard title={item.optionname} id={item.optionid} selectedoption={selectedid} set_selected={set_selected} />
+            <Pollcard title={item.optionname} id={item.optionid} selectedoption={selectedid} votes={item.votes} set_selected={set_selected} />
         )
     }
     )
-    const fetch=async ()=>{
-        await Get_Options({ set_options, id: parseInt(location.state.id) });
-        console.log('Options',options);
-    }
-    useEffect(async () => {
-        fetch();
+    useEffect(() => {
+        console.log("In votes",location.state);
+         Get_Options({ set_options, id: parseInt(location.state.id),sorted});
     }, [changed])
     const toast = useToast()
     return (
@@ -55,16 +63,23 @@ function Vote() {
             h={'100%'}
             spacing={10}
         >
-            <HStack spacing={0} justify={'center'}>
-                <Center>
-                    <Heading>{pollname}</Heading>
-                </Center>
+            <HStack spacing={0} alignSelf='center'>
+                <Heading >{pollname}</Heading>
                 <Button
-                    left={320}
+                    left={'50%'}
                     bg={'#164fd7'}
                     onClick={onOpen}
+                    visibility={iscreator?'visible':'hidden'}
                 >Add Option</Button>
+                <Button
+                    left={'55%'}
+                    bg={'#164fd7'}
+                    isLoading={loading}
+                    onClick={()=>setsorted(!sorted)}
+                    visibility={iscreator?'visible':'hidden'}
+                >Results</Button>
             </HStack>
+            
             <Wrap spacing={10} p={10} direction='column' bg={'blackAlpha.400'} borderRadius={10} overflowY={'auto'} minH={'auto'} maxHeight={'70%'}>
                 {(option.length===0)?
                 (<Heading color={'red'}>No options Availiable to vote</Heading>):option
@@ -74,7 +89,7 @@ function Vote() {
             <HStack spacing={40}>
             <Button colorScheme='green' isDisabled={selectedid == 0} onClick={
                 async () => {
-                    await Cast_Vote({ id: selectedid });
+                    await Cast_Vote({ id: selectedid,setchanged});
                     toast({
                         title: 'Voted',
                         description: `We have recieved your vote.`,
@@ -99,14 +114,14 @@ function Vote() {
             </HStack>
             <Modal
                 isOpen={isOpen}
-                onClose={onClose}
+                onClose={mclose}
             >
                 <ModalOverlay />
                 <ModalContent bg={'gray.800'} color={'white'}>
                     <ModalHeader>Add Option</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6} >
-                    <AddForm onClose={onClose} id={id} desc='option' fetch={setchanged}/>
+                    <AddForm onClose={mclose} id={id} desc='option' fetch={setchanged}/>
                     </ModalBody>
                 </ModalContent>
             </Modal>
