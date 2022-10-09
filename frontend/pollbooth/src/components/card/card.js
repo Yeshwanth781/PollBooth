@@ -4,8 +4,8 @@ import { BsChevronRight } from "react-icons/bs";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 
-import { Heading, Text, WrapItem, ArrowRightIcon, HStack } from '@chakra-ui/react'
-function Card({ title,id,isteam }) {
+import { Heading, Text, WrapItem, ArrowRightIcon, HStack, } from '@chakra-ui/react'
+function Card({ title,id,isteam,iscreator}) {
     const navigate=useNavigate();
     return (
         <WrapItem
@@ -22,19 +22,21 @@ function Card({ title,id,isteam }) {
                 {
             if(isteam===true)
             navigate(
-                '/polls',
+                '/app/polls',
                 { 
                 state: {
                     id,
+                    iscreator,
                 }
             }
             )
             else navigate(
-                '/vote',
+                '/app/vote',
                 { 
                 state: {
                     id,
                     title,
+                    iscreator,
                 }
             }
             )

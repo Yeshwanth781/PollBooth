@@ -2,22 +2,23 @@ const router=require('express').Router();
 const {PrismaClient}=require("@prisma/client")
 const prisma=new PrismaClient();
 
-router.get('/:id',async (req,res)=>{
+router.post('/login',async (req,res)=>{
     const id=parseInt(req.params.id)
     const userdetails=await prisma.users.findMany({
         where:{
-            id:id,
+            email:req.body.email,
+            password:req.body.password,
         }
     })
-    res.json(userdetails);
+    res.status(200).json(userdetails);
 })
 
-router.post('/add',async (req,res)=>{
+router.post('/signup',async (req,res)=>{
     await prisma.users.create({
         data:{
             name:req.body.name,
-            email:'xyz@gmail.com',
-            password:'opop',
+            email:req.body.email,
+            password:req.body.password,
         }
     })
     res.status(200).json({

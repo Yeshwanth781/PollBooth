@@ -5,7 +5,7 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 
 
 import { Heading, Text, WrapItem, ArrowRightIcon, HStack, Button } from '@chakra-ui/react'
-export function Pollcard({ title, id, selectedoption,set_selected }) {
+export function Pollcard({ title, id, selectedoption,set_selected,votes }) {
     const navigate = useNavigate();
     return (
         <WrapItem
@@ -24,8 +24,8 @@ export function Pollcard({ title, id, selectedoption,set_selected }) {
                 borderRadius={5}
             >
                 <Heading>{title}</Heading>
-                <Button bg={'orange.200'} borderRadius='10'>
-                    select
+                <Button bg={'pink'} borderRadius='10'>
+                    {votes}
                 </Button>
             </HStack>
         </WrapItem>
