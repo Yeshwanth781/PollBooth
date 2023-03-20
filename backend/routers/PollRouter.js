@@ -1,11 +1,7 @@
 const router=require('express').Router();
 const {PrismaClient}=require("@prisma/client")
 const prisma=new PrismaClient();
-router.get('/',(req,res)=>{
-    res.json({
-        messege:"poll request",
-    })
-})
+
 router.get('/all/:teamid',async (req,res)=>{
     const id=parseInt(req.params.teamid)
     const polls=await prisma.polls.findMany({
@@ -46,7 +42,7 @@ router.post('/addoption/:pollid',async (req,res)=>{
     })
 }catch(err){
     res.json({
-        messege:"could create poll",
+        messege:"could not create poll",
     })
 }
     res.json({
@@ -63,6 +59,7 @@ router.get('/getpollDetails/:pollid',async (req,res)=>{
     })
     res.json(polls);
 })
+
 router.put('/vote/:optionid',async (req,res)=>{
     const optionid=parseInt(req.params.optionid);
     let votes=await prisma.options.findMany({

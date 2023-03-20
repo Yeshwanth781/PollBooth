@@ -1,4 +1,4 @@
-from flask import Blueprint,jsonify
+from flask import Blueprint,jsonify,request
 from app import app,db
 from models import *
 #defing bluprint
@@ -7,9 +7,12 @@ team_bp=Blueprint('team_bp',__name__)
 @team_bp.get('/<user_id>')
 def Get_Teams(user_id):
     try:
-        data=users.query.filter_by(id=user_id).first().teams
+        data=users.query.filter_by(id=user_id).first()
+        if data is None :
+            return [],400
+        data=data.teams
         data=jsonify([x.to_json() for x in data])
-        return data,200
+        return data.json,200
     except Exception as e:
         return {'messege':str(e)},400
 

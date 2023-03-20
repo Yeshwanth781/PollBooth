@@ -28,7 +28,12 @@ class users(db.Model):
     email=db.Column(db.String(20),unique=True, nullable=False)
     password=db.Column(db.String(20),nullable=False)
     teams=db.relationship('teams',secondary=members,backref='members',lazy=False)
-
+    def to_json(self):
+        return {
+            'id':self.id,
+            'name':self.name,
+            'email':self.email,
+        }
 # teams
 class teams(db.Model):
     teamid=db.Column(db.Integer,primary_key=True)
@@ -39,7 +44,7 @@ class teams(db.Model):
         return {
             'teamname':self.teamname,
             'creator':self.creator,
-            'polls':self.polls,
+            'teamid':self.teamid
         }
 
 
@@ -51,11 +56,24 @@ class polls(db.Model):
     pollname=db.Column(db.String(20),nullable=False)
     teamid=db.Column(db.Integer,db.ForeignKey('teams.teamid'),nullable=False)
     options=db.relationship('Options',backref='poll')
-
+    def to_json(self):
+        return {
+            "pollid":self.pollid,
+            'pollname':self.pollname,
+            'teamid':self.teamid,
+        }
+ 
 # options
 # polls-onetomany-options
 class Options(db.Model):
-    optionid=db.Column(db.String(20),primary_key=True)
+    optionid=db.Column(db.Integer,primary_key=True)
     optionname=db.Column(db.String(20))
-    votes=db.Column(db.String(20))
+    votes=db.Column(db.Integer,default=0,nullable=False)
     pollid=db.Column(db.Integer,db.ForeignKey('polls.pollid'))
+    def to_json(self):
+        return{
+            'optionid':self.optionid,
+            'optionname':self.optionname,
+            'votes':self.votes,
+            'pollid':self.pollid
+        }
