@@ -24,7 +24,7 @@ router.post('/add', async (req, res) => {
         })
     } catch (err) {
         res.json({
-            messege: "could find user",
+            messege: err,
         })
     }
     res.status(200).json({
@@ -72,4 +72,5 @@ router.post('/addemail/:email', async (req, res) => {
         })
     }
 })
+
 module.exports = router;

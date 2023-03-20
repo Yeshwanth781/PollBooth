@@ -33,6 +33,7 @@ function Vote() {
     id= location.state.id;
     iscreator=location.state.iscreator;
     }
+    
     const pollname = location.state.title;
     const [changed,setchanged]=useState(false);
     const mclose=()=>{

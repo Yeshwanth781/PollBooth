@@ -247,6 +247,7 @@ export const Signup = async ({ name, email, password, setdetails }) => {
     }).then(async (res) => {
         const jsonRes = await res.json();
         console.log("fetched...", jsonRes);
+        if(res.status==200)
         setdetails(jsonRes);
         return jsonRes;
     })
